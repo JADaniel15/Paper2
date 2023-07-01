@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,6 +11,7 @@
     <link rel="stylesheet" href="./static/css/style.css">
     <title>MyTeacher</title>
 </head>
+
 <body>
     <header>
         <img class="logo" src="./static/img/logo_myteacher.png" alt="logo do site MyTeacher">
@@ -21,21 +23,102 @@
             <p><strong class="teacher-name">João da Silva</strong></p>
             <p class="teacher-price">R$ 100,00 por hora</p>
             <p class="teacher-description">Professor de inglês, já morou nos Estados Unidos e Inglaterra.</p>
-            <form class="teacher-contract">
-                <input type="number" placeholder="Quantidade de horas" class="teacher-contract-hours">
-                <button type="submit"  class="teacher-contract-button">Calcular valor total</button>
-            </form>
+            <button id="myBtn" class="budget-button" value=100>Calcular Orçamento</button>
         </section>
         <section class="teacher-container">
             <img src="./static/img/foto_professor_2.png" alt="Foto do professor" class="teacher-img">
-            <p><strong class="teacher-name">Maria  da Silva</strong></p>
+            <p><strong class="teacher-name">Maria da Silva</strong></p>
             <p class="teacher-price">R$ 90,00 por hora</p>
             <p class="teacher-description">Professora de inglês, já morou nos Estados Unidos e Inglaterra.</p>
-            <form class="teacher-contract">
-                <input type="number" placeholder="Quantidade de horas" class="teacher-contract-hours">
-                <button type="submit"  class="teacher-contract-button">Calcular valor total</button>
-            </form>
+            <button id="myBtn" class="budget-button" value=90>Calcular Orçamento</button>
         </section>
     </main>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Calcular Orçamento</h2>
+            </div>
+            <div class="modal-body">
+                <form class="teacher-contract">
+                    <!-- <input type="number" style="margin-right: 10px;" placeholder="Quantidade de horas" class="teacher-contract-hours"> -->
+
+                    <select id="qtdAulas" name="budget" id="budget" class="teacher-contract-hours"
+                        style="margin-right: 10px;">
+                        <option value=10>10 aulas</option>
+                        <option value=20>20 aulas</option>
+                        <option value=30>30 aulas</option>
+                    </select>
+
+                    <input id="nome" type="text" style="margin-right: 10px;" placeholder="Seu Nome"
+                        class="teacher-contract-hours" onchange="">
+                    <input id="email" type="text" placeholder="Seu E-Mail" class="teacher-contract-hours">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" onclick="calcularValorTotal()" class="teacher-contract-button">Comprar
+                    aulas!</button>
+            </div>
+        </div>
+    </div>
 </body>
+
+<script>
+    var valorAula = 0;
+
+    // Pega o elemento modal
+    var modal = document.getElementById("myModal");
+
+    // Pega o botão que abre a Modal
+    var btn = document.getElementById("myBtn");
+
+    // Pega o elemento que fecha a modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // Ao clicar no botão para abrir a modal
+    btn.onclick = function () {
+        modal.style.display = "block";
+        console.log(valorAula);
+    }
+
+    // Quando clicar no elemento de fechar a modal
+    span.onclick = function () {
+        modal.style.display = "none";
+        valorAula = 0;
+    }
+
+    // Quando clicar em qualquer lugar fora da modal
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    function calcularValorTotal() {
+        let nome = document.getElementById('nome').value;
+        let email = document.getElementById('email').value;
+        let qtdAulas = document.getElementById('qtdAulas').value;
+
+        var dadosAEnviar = {
+            nomeAluno: nome,
+            emailAluno: email,
+            qtdAulasAluno: qtdAulas,
+            valorAula: btn.value
+        }
+        console.log(dadosAEnviar);
+
+        fetch('/dados', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dadosAEnviar)
+        });
+
+    }
+
+
+</script>
+
 </html>
