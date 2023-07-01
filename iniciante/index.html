@@ -44,18 +44,21 @@
                 <form class="teacher-contract">
                     <!-- <input type="number" style="margin-right: 10px;" placeholder="Quantidade de horas" class="teacher-contract-hours"> -->
 
-                    <select id="qtdAulas" name="budget" id="budget" class="teacher-contract-hours" style="margin-right: 10px;">
+                    <select id="qtdAulas" name="budget" id="budget" class="teacher-contract-hours"
+                        style="margin-right: 10px;">
                         <option value=10>10 aulas</option>
                         <option value=20>20 aulas</option>
                         <option value=30>30 aulas</option>
                     </select>
 
-                    <input id="nome" type="text" style="margin-right: 10px;" placeholder="Seu Nome" class="teacher-contract-hours" onchange="">
+                    <input id="nome" type="text" style="margin-right: 10px;" placeholder="Seu Nome"
+                        class="teacher-contract-hours" onchange="">
                     <input id="email" type="text" placeholder="Seu E-Mail" class="teacher-contract-hours">
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" onclick="calcularValorTotal()" class="teacher-contract-button">Comprar aulas!</button>
+                <button type="submit" onclick="calcularValorTotal()" class="teacher-contract-button">Comprar
+                    aulas!</button>
             </div>
         </div>
     </div>
@@ -90,7 +93,7 @@
         if (event.target == modal) {
             modal.style.display = "none";
         }
-    } 
+    }
 
     function calcularValorTotal() {
         let nome = document.getElementById('nome').value;
@@ -104,6 +107,14 @@
             valorAula: btn.value
         }
         console.log(dadosAEnviar);
+
+        fetch('/dados', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dadosAEnviar)
+        });
 
     }
 
